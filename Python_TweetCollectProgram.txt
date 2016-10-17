@@ -1,0 +1,79 @@
+#!/usr/bin/python
+import json
+import oath2 as oauth 
+
+from __future__ import absolute_import, print_function
+
+
+from tweepy.streaming import StreamListener
+
+from tweepy import OAuthHandler
+
+from tweepy import Stream
+
+
+import time
+
+
+
+consumer_key="pb3rP5umwCJ9Fqvd4LJxyxIQH"
+
+consumer_secret="oIwOggEaUtgjJtg6RAaNIIS9OqfJh2o2hXBxsraKFVDuY9SUPP"
+
+access_token="278499767-HKHFEgGYRMuM7J17aqx7ioRRJYoJiyAKYTiBSgwp"
+
+access_token_secret="xKPNBEZK2CZtBRdevLF7CEd42nnGbJ6veOfri45i0Q2bo"
+
+
+
+class TweitListener(StreamListener):
+   
+    
+	def on_data(self, tweitinfo):
+        
+		try:
+            
+			print(tweitinfo)
+            
+			tweitInfoJsonTeam9 = open('tweitCollect.txt','a')
+            
+			tweitInfoJsonTeam9.write(tweitinfo)
+            
+			tweitInfoJsonTeam9.write('\n')
+            
+			tweitInfoJsonTeam9.close()
+            
+			return True
+        
+		except BaseException as e:
+            
+			print ('Problem collecting tweit information in JSON,',str(e))
+            
+			time.sleep(5)
+
+    
+
+	def on_error(self, error):
+        
+		print(error)
+
+
+
+if __name__ == '__main__':
+    
+	twt = TweitListener()
+    
+	auth = OAuthHandler(consumer_key, consumer_secret)
+    
+	auth.set_access_token(access_token, access_token_secret)
+
+    
+	
+	stream = Stream(auth, twt)
+    
+	stream.filter(track=[‘world cup 2016’,’cricket’,’world cricket cup 2016’,’viral kohli’,’WestIndies’,’India’,’England’,’pakistan’,’southafrica’,
+           	          'Natarajasana','Padmasana','Anjaneyasana','Marich yasana','Hanumanasana','Tadasana','Pasasana','Eka Pada Rajakapotasana','Mayurasana',
+	
+                         'Kapotasana','Halasana','Eka Pada Koundinyanasana','Marichyasana','Supta Baddha Konasana','Supta Padangusthasana','Supta Virasana',
+  
+                       	‘msdhoni’,’sachin tendulkar’,’sahidafridi’,’srilanka’])
